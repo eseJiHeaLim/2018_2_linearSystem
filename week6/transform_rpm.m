@@ -80,20 +80,18 @@ z_r=[x_r ;y_r ;zeros(1,1000)];
 hope_rpm=str2double(hope_rpm)
 add=hope_rpm/2;   
 
-for k=1:1
+for k=1:5
     i=1;
     s=0;
     h=2.6;
     cnt=0;
 rpm=hope_rpm;
 t=clock;
-
     while(i<=250)
         s=s+add;
         th=s*pi/180;
         % 한바퀴 돌때마다 체크 
         if(s>360)
-%             t2=toc;
             t1=etime(clock,t);
             s=0;
             cnt=cnt+1
