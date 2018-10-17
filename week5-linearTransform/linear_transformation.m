@@ -154,3 +154,36 @@ for s = 0 :-0.05:-360
     clf;axis([-20 20 -20 20]);
     line(r(1,:),r(2,:));pause(0.00001);
 end
+
+%% 3d rotation - z축 기준
+% plot3(x(1,:),x(2,:),x(3,:))
+figure;
+s=60;
+    th=s*pi/180;
+    %z축 기준으로 회전
+    R=[cos(th) -sin(th) 0 ; sin(th) cos(th) 0 ; 0 0 1];
+    r=R*x;
+    clf;axis([-20 20 -20 20]);
+    plot3(r(1,:),r(2,:),r(3,:))
+    
+ %% 3d rotation - y축 기준
+% plot3(x(1,:),x(2,:),x(3,:))
+figure;
+s=-60;
+    th=s*pi/180;
+    %z축 기준으로 회전
+    R=[cos(th) 0 sin(th) ; 0 1 0; -sin(th) 0 cos(th) ];
+    r=R*x;
+    clf;axis([-20 20 -20 20]);
+    plot3(r(1,:),r(2,:),r(3,:))
+     %% 3d rotation - x축 기준
+% plot3(x(1,:),x(2,:),x(3,:))
+figure;
+s=-60;
+    th=s*pi/180;
+    %z축 기준으로 회전
+    R=[1 0 0 ;0 cos(th) -sin(th) ; 0  sin(th) cos(th) ];
+    r=R*x;
+    clf;axis([-20 20 -20 20]);
+    plot3(r(1,:),r(2,:),r(3,:))
+ 
