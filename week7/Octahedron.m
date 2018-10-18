@@ -104,7 +104,7 @@ orbit=[0,0,20];
 for x1=[0:0.15: 20]
     clf;
     psi=4*pi*x1/20;
-    Pz_u=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 0;0 0 1  0;0 0 0 1];
+    Rz_u=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 0;0 0 1  0;0 0 0 1];
     y=Rz_u*d;
     
      line([y(1,:) y(1,1)],[y(2,:) y(2,1)], [y(3,:) y(3,1)]);
@@ -125,12 +125,14 @@ for x1=[0:0.15: 20]
     view([60 60 60]); grid
     pause(0.000001);clf;
 end
+%% 
 
+x3=0
 for deg=[0:2:720]
     clf;
      x1=20*cos(deg*pi/180)+randn(1);
     x2=20*sin(deg*pi/180)+randn(1);
-    x3=x3-0.1+randn(1);
+    x3=x3-0.01+randn(1);
     
      psi = deg* 4* pi/180;
     
@@ -159,12 +161,38 @@ end
 %% 원근을 고려하여 도형의 크기를 변형시켜라 - 가까울수록 크고 , 멀수록 작아진다
 x3=0;
 orbit=[0,0,20];
-vpoint=[60,60,60];
+vpoint=[60,60,60]; % 내가 이렇게 보고 있다는 가정임
 vgain=10000; % 원근감을 조절하는 사용자 설정 계수
 
-for x1=[0:0.15:20]
+for x1=[0:0.3:20]
     clf;
     psi=4*pi*x1/20;
-     Pz_u=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 0;0 0 1  0;0 0 0 1];
-    y=Rz_u*d;
+     Rz_u=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 0;0 0 1  0;0 0 0 1];
+    y_before=Rz_u*d;
+    disp_point=sqrt((y_before(1,1)-vpoint(1))^2 + (y_before(2,1)-vpoint(2))^2 + (y_before(3,1)-vpoint(3))^2);
+    
+    y=y_before./(disp_point.^2).*vgain;
+     line([y(1,:) y(1,1)],[y(2,:) y(2,1)], [y(3,:) y(3,1)]);
+    line([40 0 0 ], [0 0 0 ], [0 0 0 ],'Color' ,'r');
+    line([0 0 0 ], [0 40 0 ], [0 0 0 ],'Color' ,'r');
+    line([0 0 0 ], [0 0 0 ], [0 0 40 ],'Color' ,'k');
+    
+     orbit = [orbit ; y(1,1) y(2,1),y(3,1)];
+    line(orbit(:,1) , orbit(:,2), orbit(:,3));
+    
+    for i = 1:1:8
+                 patch([y(1,p(i,1)) y(1,p(i,2)) y(1,p(i,3))], [y(2,p(i,1)) y(2,p(i,2)) y(2,p(i,3))], ...
+            [y(3,p(i,1)) y(3,p(i,2)) y(3,p(i,3))], c(i));
+    end
+    
+     xlabel('x1-axis'); ylabel('x2-axis'); zlabel('z3-axis');
+    axis([-60 60 -60 60 -60 60]);
+    view([60 60 60]); grid
+    pause(0.000001);
+    
 end
+
+
+%% 원든근고려한 회전을 하되 vpoint를 변결 시킨다
+
+% 괒 ㅔㅇㅁ
