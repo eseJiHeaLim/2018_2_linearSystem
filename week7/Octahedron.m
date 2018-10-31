@@ -169,12 +169,12 @@ for x1=[0:0.3:20]
     psi=4*pi*x1/20;
      Rz_u=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 0;0 0 1  0;0 0 0 1];
     y_before=Rz_u*d;
-    disp_point=sqrt((y_before(1,1)-vpoint(1))^2 + (y_before(2,1)-vpoint(2))^2 + (y_before(3,1)-vpoint(3))^2);
+    disp_vpoint=sqrt((y_before(1,1)-vpoint(1))^2 + (y_before(2,1)-vpoint(2))^2 + (y_before(3,1)-vpoint(3))^2);
     
-    y=y_before./(disp_point.^2).*vgain;
+    y=y_before./(disp_vpoint.^2).*vgain;
      line([y(1,:) y(1,1)],[y(2,:) y(2,1)], [y(3,:) y(3,1)]);
     line([40 0 0 ], [0 0 0 ], [0 0 0 ],'Color' ,'r');
-    line([0 0 0 ], [0 40 0 ], [0 0 0 ],'Color' ,'r');
+    line([0 0 0 ], [0 40 0 ], [0 0 0 ],'Color' ,'g');
     line([0 0 0 ], [0 0 0 ], [0 0 40 ],'Color' ,'k');
     
      orbit = [orbit ; y(1,1) y(2,1),y(3,1)];
@@ -191,8 +191,39 @@ for x1=[0:0.3:20]
     pause(0.000001);
     
 end
-
-
+for deg= [0:2:720]
+    clf;
+    x1=20*cos(deg*pi/180);
+    x2=20*sin(deg*pi/180);
+    x3=x3-0.1;
+    psi=deg*4*pi/180;
+    
+    Rz_round=[ cos(psi) -sin(psi) 0 x1 ; sin(psi)  cos(psi) 0 x2;0 0 1  x3;0 0 0 1];
+    y_before=Rz_round*d;
+    disp_vpoint=sqrt((y_before(1,1)-vpoint(1))^2 + (y_before(2,1)-vpoint(2))^2 + (y_before(3,1)-vpoint(3))^2);
+    
+    y=y_before./(disp_vpoint.^2).*vgain;
+    
+    line([y(1,:) y(1,1)],[y(2,:) y(2,1)], [y(3,:) y(3,1)]);
+    line([40 0 0 ], [0 0 0 ], [0 0 0 ],'Color' ,'r');
+    line([0 0 0 ], [0 40 0 ], [0 0 0 ],'Color' ,'g');
+    line([0 0 0 ], [0 0 0 ], [0 0 40 ],'Color' ,'k');
+    
+     orbit = [orbit ; y(1,1) y(2,1),y(3,1)];
+    line(orbit(:,1) , orbit(:,2), orbit(:,3));
+    
+    for i = 1:1:8
+                 patch([y(1,p(i,1)) y(1,p(i,2)) y(1,p(i,3))], [y(2,p(i,1)) y(2,p(i,2)) y(2,p(i,3))], ...
+            [y(3,p(i,1)) y(3,p(i,2)) y(3,p(i,3))], c(i));
+    end
+    
+     xlabel('x1-axis'); ylabel('x2-axis'); zlabel('z3-axis');
+    axis([-60 60 -60 60 -60 60]);
+    view([60 60 60]); grid
+    pause(0.000001);
+    
+    
+end
 %% 원든근고려한 회전을 하되 vpoint를 변결 시킨다
 
 % 괒 ㅔㅇㅁ

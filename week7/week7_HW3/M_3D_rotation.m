@@ -60,15 +60,11 @@ side_r=[8 8 8 8 ;
     0 1 1 0 ;
     1 1 1 1];
 
-
 %% 3축회전 운동 각각 
 video_OBJ=VideoWriter('M_3D_rotation.avi');
 open(video_OBJ);
-% rolling
-
-for th= 0 : 01:360
+for th= 0 : 01:360  % rolling
     the= th*pi/180;
-    
     Rx=[1 0 0 0 ; 0 cos(the) -sin(the) 0 ; 0 sin(the) cos(the) 0; 0 0 0 1];
     y1=Rx*front_v;
     y2=Rx*back_l;
@@ -104,8 +100,7 @@ for th= 0 : 01:360
     pause(0.0001)
 end
 
-%sway
-
+%pitch
 for ph= 0 : 1:360
     clf;
     phi= ph*pi/180;
@@ -245,7 +240,6 @@ for th= 0 : 0.1:180
     x1=cos(th*pi/180)+randn(1);
     x2=sin(th*pi/180)+randn(1);
     x3=x3-0.01+randn(1);
-    
     Rx=[1 0 0 0 ; 0 cos(the_r) -sin(the_r) 0 ; 0 sin(the_r) cos(the_r) 0; 0 0 0 1];
     Ry=[cos(the_p) 0  sin(the_p) 0 ;0 1 0 0 ;  -sin(the_p) 0 cos(the_p) 0; 0 0 0 1];
     Rz=[cos(the_y) -sin(the_y) 0 0 ;sin(the_y)  cos(the_y) 0 0;0 0 1  0 ;   0 0 0 1];
@@ -275,9 +269,7 @@ for th= 0 : 0.1:180
     fill3(y10(1,:),y10(2,:),y10(3,:),'y');
     fill3(y11(1,:),y11(2,:),y11(3,:),'y');
     fill3(y12(1,:),y12(2,:),y12(3,:),'y');
-    view([60 60 60])
-    axis([-50 50 -50 50 -50 50]); grid
-    text(10,40,120,'201701751 임지혜')
+    view([60 60 60]) ; axis([-50 50 -50 50 -50 50]); grid ; text(10,40,120,'201701751 임지혜')
     xlabel('x1-axis'); ylabel('x2-axis'); zlabel('z3-axis');
     saveas(gcf,'test.jpg')
     writeVideo(video_OBJ ,imread('test.jpg'));
